@@ -17,7 +17,7 @@
 
 void getID() {
   printLine();
-  Serial.println(F("                                                                               Get ID                                                                 "));
+  _debug.println(F("                                                                               Get ID                                                                 "));
   printLine();
   uint8_t b1, b2;
   uint16_t b3;
@@ -33,60 +33,60 @@ void getID() {
     //---------------------------------------------------------------------------------------------//
     //--------------------------Prints the name of the Flash chip in use---------------------------//
     //---------------------------------------------------------------------------------------------//
-    Serial.print(F("                                                                          Winbond "));
+    _debug.print(F("                                                                          Winbond "));
     if (_name < 80) {
       if (_name == 05) {
         clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
-        Serial.println(printBuffer);
+        _debug.println(printBuffer);
         clearprintBuffer();
       }
       else if (_name % 10 == 0) {
         clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
-        Serial.println(printBuffer);
+        _debug.println(printBuffer);
         clearprintBuffer();
       }
       else {
         clearprintBuffer();
         sprintf(printBuffer, "W25Q%02d**", _name);
-        Serial.println(printBuffer);
+        _debug.println(printBuffer);
         clearprintBuffer();
       }
     }
     else {
       clearprintBuffer();
       sprintf(printBuffer, "W25Q%02d**", _name);
-      Serial.println(printBuffer);
+      _debug.println(printBuffer);
       clearprintBuffer();
     }
   }
   else if (b1 == MICROCHIP) {
-    Serial.print(F("                                                                        Microchip "));
+    _debug.print(F("                                                                        Microchip "));
     if (_name < 80) {
       if (_name == 05) {
         clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
-        Serial.println(printBuffer);
+        _debug.println(printBuffer);
         clearprintBuffer();
       }
       else if (_name % 10 == 0) {
         clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
-        Serial.println(printBuffer);
+        _debug.println(printBuffer);
         clearprintBuffer();
       }
       else {
         clearprintBuffer();
         sprintf(printBuffer, "W25Q%02d**", _name);
-        Serial.println(printBuffer);
+        _debug.println(printBuffer);
         clearprintBuffer();
       }
     }
     else {
       clearprintBuffer();
       sprintf(printBuffer, "W25Q%02d**", _name);
-      Serial.println(printBuffer);
+      _debug.println(printBuffer);
       clearprintBuffer();
     }
   }
@@ -95,11 +95,11 @@ void getID() {
 
   clearprintBuffer();
   sprintf(printBuffer, "\t\t\tJEDEC ID: %04lxh", JEDEC);
-  Serial.println(printBuffer);
+  _debug.println(printBuffer);
   clearprintBuffer();
   //sprintf(printBuffer, "\t\t\tManufacturer ID: %02xh\n\t\t\tMemory Type: %02xh\n\t\t\tCapacity: %02xh\n\t\t\tMaximum pages: %lu", b1, b2, b3, maxPage);
   sprintf(printBuffer, "\t\t\tManufacturer ID: %02xh\n\t\t\tMemory Type: %02xh\n\t\t\tCapacity: %lu bytes\n\t\t\tMaximum pages: %lu", b1, b2, capacity, maxPage);
-  Serial.println(printBuffer);
+  _debug.println(printBuffer);
 }
 
 bool checkPage(uint8_t *data_buffer) {
@@ -112,11 +112,11 @@ bool checkPage(uint8_t *data_buffer) {
 
 void diagnose() {
   printLine();
-  Serial.println(F("                                                                              Data Check                                                              "));
+  _debug.println(F("                                                                              Data Check                                                              "));
   printLine();
 
-  Serial.println(F("\tData Written\t||\tData Read\t||\tResult\t\t||\tWrite Time\t||\tRead Time\t||\tWrite Time\t||\tFast Read Time"));
-  Serial.println(F("\t\t\t||\t\t\t||\t\t\t||\t\t\t||\t\t\t||\t(No Error Chk)\t||"));
+  _debug.println(F("\tData Written\t||\tData Read\t||\tResult\t\t||\tWrite Time\t||\tRead Time\t||\tWrite Time\t||\tFast Read Time"));
+  _debug.println(F("\t\t\t||\t\t\t||\t\t\t||\t\t\t||\t\t\t||\t(No Error Chk)\t||"));
   printLine();
   byteDiag();
   charDiag();
@@ -159,9 +159,9 @@ void byteDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_byte);
+  _debug.print(_byte);
   printTab(2, 1);
-  Serial.print(_b);
+  _debug.print(_b);
   printTab(2, 1);
   if (_byte == _b)
     printPass();
@@ -185,7 +185,7 @@ void byteDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -219,9 +219,9 @@ void charDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_char);
+  _debug.print(_char);
   printTab(2, 1);
-  Serial.print(_c);
+  _debug.print(_c);
   printTab(2, 1);
   if (_char == _c)
     printPass();
@@ -245,7 +245,7 @@ void charDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -279,9 +279,9 @@ void wordDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_word);
+  _debug.print(_word);
   printTab(2, 1);
-  Serial.print(_w);
+  _debug.print(_w);
   printTab(2, 1);
   if (_word == _w)
     printPass();
@@ -305,7 +305,7 @@ void wordDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -339,9 +339,9 @@ void shortDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_short);
+  _debug.print(_short);
   printTab(2, 1);
-  Serial.print(_s);
+  _debug.print(_s);
   printTab(2, 1);
   if (_short == _s)
     printPass();
@@ -365,7 +365,7 @@ void shortDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -399,9 +399,9 @@ void uLongDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_uLong);
+  _debug.print(_uLong);
   printTab(2, 1);
-  Serial.print(_uL);
+  _debug.print(_uL);
   printTab(2, 1);
   if (_uLong == _uL)
     printPass();
@@ -425,7 +425,7 @@ void uLongDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -459,9 +459,9 @@ void longDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_long);
+  _debug.print(_long);
   printTab(2, 1);
-  Serial.print(_l);
+  _debug.print(_l);
   printTab(2, 1);
   if (_long == _l)
     printPass();
@@ -485,7 +485,7 @@ void longDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -519,9 +519,9 @@ void floatDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_float);
+  _debug.print(_float);
   printTab(2, 1);
-  Serial.print(_f);
+  _debug.print(_f);
   printTab(2, 1);
   if (_float == _f)
     printPass();
@@ -545,7 +545,7 @@ void floatDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -579,9 +579,9 @@ void stringDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(_string);
+  _debug.print(_string);
   printTab(1, 1);
-  Serial.print(_str);
+  _debug.print(_str);
   printTab(1, 1);
   if (_string == _str)
     printPass();
@@ -605,7 +605,7 @@ void stringDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -653,9 +653,9 @@ void structDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTab(1, 0);
-  Serial.print(F("inputStruct"));
+  _debug.print(F("inputStruct"));
   printTab(1, 1);
-  Serial.print(F("outputStruct"));
+  _debug.print(F("outputStruct"));
   printTab(1, 1);
   if (inputStruct.s1 == outputStruct.s1 && inputStruct.s2 == outputStruct.s2 && inputStruct.s3 == outputStruct.s3 && inputStruct.s4 == outputStruct.s4 && inputStruct.s5 == outputStruct.s5)
     printPass();
@@ -679,7 +679,7 @@ void structDiag(void) {
   //                                                                     Print Result                                                                    //
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -714,15 +714,15 @@ void pageDiag(void) {
   }
   startTime = micros();
   printTab(1, 0);
-  Serial.print(F("0 - 255"));
+  _debug.print(F("0 - 255"));
   printTab(2, 1);
   startTime = micros();
   if (flash.readPage(addr, pageBuffer)) {
     rTime = micros() - startTime;
-    Serial.print(F("0 - 255"));
+    _debug.print(F("0 - 255"));
   }
   else
-    Serial.print(F("Unknown"));
+    _debug.print(F("Unknown"));
   printTab(2, 1);
   if (checkPage(pageBuffer))
     printPass();
@@ -750,7 +750,7 @@ void pageDiag(void) {
     rTime = micros() - startTime;
   }
   printTime(wTime, rTime);
-  Serial.println();
+  _debug.println();
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //-----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -761,20 +761,20 @@ void powerFuncDiag(void) {
   float wTime;
 
   printLine();
-  Serial.println(F("                                                                        Check Other Functions                                                        "));
+  _debug.println(F("                                                                        Check Other Functions                                                        "));
   printLine();
-  Serial.println(F("\t\t\t\t\tFunction\t\t||\t\tResult\t\t\t||\t\tTime"));
+  _debug.println(F("\t\t\t\t\tFunction\t\t||\t\tResult\t\t\t||\t\tTime"));
   printLine();
 
   uint32_t capacity = flash.getCapacity();
-  if (!Serial)
-    Serial.begin(115200);
+  if (!_debug)
+    _debug.begin(115200);
   uint32_t stringAddress1 = random(0, capacity);
   uint32_t stringAddress2 = random(0, capacity);
   uint32_t stringAddress3 = random(0, capacity);
 
   printTab(5, 0);
-  Serial.print(F("powerDown"));
+  _debug.print(F("powerDown"));
   printTab(2, 2);
   if (flash.writeStr(stringAddress1, _string)) {
     wTime = micros();
@@ -788,10 +788,10 @@ void powerFuncDiag(void) {
   }
   printTab(3, 2);
   printTimer(wTime);
-  Serial.println();
+  _debug.println();
 
   printTab(5, 0);
-  Serial.print(F("powerUp"));
+  _debug.print(F("powerUp"));
   printTab(3, 2);
   wTime = micros();
   if (flash.powerUp()) {
@@ -805,10 +805,10 @@ void powerFuncDiag(void) {
   }
   printTab(3, 2);
   printTimer(wTime);
-  Serial.println();
+  _debug.println();
 
   printTab(5, 0);
-  Serial.print(F("sectorErase"));
+  _debug.print(F("sectorErase"));
   wTime = micros();
   printTab(2, 2);
   if (flash.eraseSector(stringAddress1) && flash.eraseSector(stringAddress2) && flash.eraseSector(stringAddress3)) {
@@ -821,10 +821,10 @@ void powerFuncDiag(void) {
   wTime = wTime / 3;
   printTab(3, 2);
   printTimer(wTime);
-  Serial.println();
+  _debug.println();
 
   printTab(5, 0);
-  Serial.print(F("chipErase"));
+  _debug.print(F("chipErase"));
   printTab(2, 2);
   wTime = micros();
   if (flash.eraseChip()) {
@@ -838,7 +838,7 @@ void powerFuncDiag(void) {
 
   printTab(3, 2);
   printTimer(wTime);
-  Serial.println();
+  _debug.println();
 
   printLine();
 }

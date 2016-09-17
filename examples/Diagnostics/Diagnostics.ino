@@ -18,6 +18,12 @@
 #include<SPIFlash.h>
 #include<SPI.h>
 
+//#if defined (ARDUINO_ARCH_SAMD)
+#define _debug SerialUSB
+//#else
+//#define _debug Serial
+//#endif
+
 #define WINBOND     0xEF
 #define MICROCHIP   0xBF
 
@@ -26,16 +32,16 @@ char printBuffer[128];
 SPIFlash flash;
 
 void setup() {
-  Serial.begin(115200);
-  Serial.print(F("Initialising Flash memory"));
+  _debug.begin(115200);
+  _debug.print(F("Initialising Flash memory"));
   for (int i = 0; i < 10; ++i)
   {
-    Serial.print(F("."));
+    _debug.print(F("."));
   }
-  Serial.println();
+  _debug.println();
   flash.begin();
-  Serial.println();
-  Serial.println();
+  _debug.println();
+  _debug.println();
 
   randomSeed(analogRead(A0));
   getID();
@@ -47,7 +53,7 @@ void loop() {
 }
 
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Serial Print Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~_debug Print Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 void clearprintBuffer()
 {
@@ -57,25 +63,25 @@ void clearprintBuffer()
 }
 
 void printLine() {
-  Serial.println(F("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
+  _debug.println(F("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
 }
 
 void printPass() {
-  Serial.print(F("Pass"));
+  _debug.print(F("Pass"));
 }
 
 void printFail() {
-  Serial.print(F("Fail"));
+  _debug.print(F("Fail"));
 }
 
 void printTab(uint8_t a, uint8_t b) {
   for (uint8_t i = 0; i < a; i++) {
-    Serial.print(F("\t"));
+    _debug.print(F("\t"));
   }
   if (b > 0) {
-    Serial.print("||");
+    _debug.print("||");
     for (uint8_t i = 0; i < b; i++) {
-      Serial.print(F("\t"));
+      _debug.print(F("\t"));
     }
   }
 }
@@ -91,16 +97,16 @@ void printTimer(uint32_t _us) {
 
   if (_us > 1000000) {
     float _s = _us / (float)1000000;
-    Serial.print(_s, 4);
-    Serial.print(" s");
+    _debug.print(_s, 4);
+    _debug.print(" s");
   }
   else if (_us > 10000) {
     float _ms = _us / (float)1000;
-    Serial.print(_ms, 4);
-    Serial.print(" ms");
+    _debug.print(_ms, 4);
+    _debug.print(" ms");
   }
   else {
-    Serial.print(_us);
-    Serial.print(F(" us"));
+    _debug.print(_us);
+    _debug.print(F(" us"));
   }
 }
