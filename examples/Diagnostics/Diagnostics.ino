@@ -32,8 +32,8 @@ char printBuffer[128];
 SPIFlash flash;
 
 void setup() {
-  _debug.begin(115200);
-  _debug.print(F("Initialising Flash memory"));
+  SerialUSB.begin(115200);
+  SerialUSB.print(F("Initialising Flash memory"));
   for (int i = 0; i < 10; ++i)
   {
     _debug.print(F("."));
