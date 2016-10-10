@@ -2,10 +2,10 @@
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   |                                                            Diagnostic_functions.ino                                                           |
   |                                                               SPIFlash library                                                                |
-  |                                                                   v 2.5.0                                                                     |
+  |                                                                   v 2.4.0                                                                     |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   |                                                                    Marzogh                                                                    |
-  |                                                                  10.10.2016                                                                   |
+  |                                                                  01.07.2016                                                                   |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   |                                                                                                                                               |
   |                                  For a full diagnostics rundown - with error codes and details of the errors                                  |
@@ -17,10 +17,7 @@
 
 void getID() {
   printLine();
-  for (uint8_t i = 0; i < 79; i++) {
-    Serial.print(F(" "));
-  }
-  Serial.println(F("Get ID"));
+  Serial.println(F("                                                                               Get ID                                                                 "));
   printLine();
   uint8_t b1, b2;
   uint16_t b3;
@@ -28,88 +25,78 @@ void getID() {
   uint32_t maxPage = flash.getMaxPage();
   uint16_t _name = flash.getChipName();
   uint32_t capacity = flash.getCapacity();
-  char printBuffer[128];
   b1 = (JEDEC >> 16);
   b2 = (JEDEC >> 8);
   b3 = (JEDEC >> 0);
-
-#define WINBOND     0xEF
-#define MICROCHIP   0xBF
 
   if (b1 == WINBOND) {
     //---------------------------------------------------------------------------------------------//
     //--------------------------Prints the name of the Flash chip in use---------------------------//
     //---------------------------------------------------------------------------------------------//
-    for (uint8_t i = 0; i < 75; i++) {
-      Serial.print(F(" "));
-    }
-    Serial.print(F("Winbond "));
+    Serial.print(F("                                                                          Winbond "));
     if (_name < 80) {
       if (_name == 05) {
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
         Serial.println(printBuffer);
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
       }
       else if (_name % 10 == 0) {
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
         Serial.println(printBuffer);
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
       }
       else {
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
         sprintf(printBuffer, "W25Q%02d**", _name);
         Serial.println(printBuffer);
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
       }
     }
     else {
-      clearprintBuffer(&printBuffer[1]);
+      clearprintBuffer();
       sprintf(printBuffer, "W25Q%02d**", _name);
       Serial.println(printBuffer);
-      clearprintBuffer(&printBuffer[1]);
+      clearprintBuffer();
     }
   }
   else if (b1 == MICROCHIP) {
-    for (uint8_t i = 0; i < 73; i++) {
-      Serial.print(F(" "));
-    }
-    Serial.print(F("Microchip "));
+    Serial.print(F("                                                                        Microchip "));
     if (_name < 80) {
       if (_name == 05) {
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
         Serial.println(printBuffer);
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
       }
       else if (_name % 10 == 0) {
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
         sprintf(printBuffer, "W25X%02d**", _name);
         Serial.println(printBuffer);
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
       }
       else {
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
         sprintf(printBuffer, "W25Q%02d**", _name);
         Serial.println(printBuffer);
-        clearprintBuffer(&printBuffer[1]);
+        clearprintBuffer();
       }
     }
     else {
-      clearprintBuffer(&printBuffer[1]);
+      clearprintBuffer();
       sprintf(printBuffer, "W25Q%02d**", _name);
       Serial.println(printBuffer);
-      clearprintBuffer(&printBuffer[1]);
+      clearprintBuffer();
     }
   }
   printLine();
   //---------------------------------------------------------------------------------------------//
 
-  clearprintBuffer(&printBuffer[1]);
+  clearprintBuffer();
   sprintf(printBuffer, "\t\t\tJEDEC ID: %04lxh", JEDEC);
   Serial.println(printBuffer);
-  clearprintBuffer(&printBuffer[1]);
+  clearprintBuffer();
   //sprintf(printBuffer, "\t\t\tManufacturer ID: %02xh\n\t\t\tMemory Type: %02xh\n\t\t\tCapacity: %02xh\n\t\t\tMaximum pages: %lu", b1, b2, b3, maxPage);
   sprintf(printBuffer, "\t\t\tManufacturer ID: %02xh\n\t\t\tMemory Type: %02xh\n\t\t\tCapacity: %lu bytes\n\t\t\tMaximum pages: %lu", b1, b2, capacity, maxPage);
   Serial.println(printBuffer);
@@ -125,20 +112,11 @@ bool checkPage(uint8_t *data_buffer) {
 
 void diagnose() {
   printLine();
-  for (uint8_t i = 0; i < 79; i++) {
-    Serial.print(F(" "));
-  }
-  Serial.println(F("Data Check"));
+  Serial.println(F("                                                                              Data Check                                                              "));
   printLine();
 
   Serial.println(F("\tData Written\t||\tData Read\t||\tResult\t\t||\tWrite Time\t||\tRead Time\t||\tWrite Time\t||\tFast Read Time"));
-  for (uint8_t i = 0; i < 15; i++) {
-    Serial.print(F("\t"));
-    if ((i % 3) == 0) {
-      Serial.print(F("||"));
-    }
-  }
-  Serial.println(F("\t(No Error Chk)\t||"));
+  Serial.println(F("\t\t\t||\t\t\t||\t\t\t||\t\t\t||\t\t\t||\t(No Error Chk)\t||"));
   printLine();
   byteDiag();
   charDiag();
