@@ -29,11 +29,11 @@
 //        Private functions used by Arduino Due DMA operations        //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 // Disable DMA Controller
-void SPIFlash::_dmac_disable() {
+void SPIFlash::_dmac_disable(void) {
   DMAC->DMAC_EN &= (~DMAC_EN_ENABLE);
 }
 // Enable DMA Controller.
-void SPIFlash::_dmac_enable() {
+void SPIFlash::_dmac_enable(void) {
   DMAC->DMAC_EN = DMAC_EN_ENABLE;
 }
 // Disable DMA Channel
@@ -126,7 +126,7 @@ void SPIFlash::_dueSPIDmaCharTX(const char* src, uint16_t count) {
   _dmac_channel_enable(SPI_DMAC_TX_CH);
 }
 
-void SPIFlash::_dueSPIBegin() {
+void SPIFlash::_dueSPIBegin(void) {
   PIO_Configure(
       g_APinDescription[PIN_SPI_MOSI].pPort,
       g_APinDescription[PIN_SPI_MOSI].ulPinType,
@@ -185,7 +185,7 @@ uint8_t SPIFlash::_dueSPITransfer(uint8_t b) {
   return b;
 }
 // SPI receive a byte
-uint8_t SPIFlash::_dueSPIRecByte() {
+uint8_t SPIFlash::_dueSPIRecByte(void) {
   return _dueSPITransfer(0XFF);
 }
 // SPI receive multiple bytes
@@ -219,7 +219,7 @@ uint8_t SPIFlash::_dueSPIRecByte(uint8_t* buf, size_t len) {
   return rtn;
 }
 // SPI receive a char
-int8_t SPIFlash::_dueSPIRecChar() {
+int8_t SPIFlash::_dueSPIRecChar(void) {
   return _dueSPITransfer(0XFF);
 }
 // SPI receive multiple chars
@@ -293,6 +293,39 @@ void SPIFlash::_dueSPISendChar(const char* buf, size_t len) {
   while ((pSpi->SPI_SR & SPI_SR_TXEMPTY) == 0) {}
   // leave RDR empty
   char b = pSpi->SPI_RDR;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//      Public functions used by Arduino Due specific operations      //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+//Returns a 32bit value with the amount of Free SRAM
+uint32_t SPIFlash::dueFreeRAM(void)
+{
+  char *heapend=sbrk(0);
+  register char * stack_ptr asm("sp");
+  struct mallinfo mi=mallinfo();
+
+  return (stack_ptr - heapend + mi.fordblks);
+  /*
+  pConsole->printf("    arena=%d\n",mi.arena);
+  pConsole->printf("  ordblks=%d\n",mi.ordblks);
+  pConsole->printf(" uordblks=%d\n",mi.uordblks);
+  pConsole->printf(" fordblks=%d\n",mi.fordblks);
+  pConsole->printf(" keepcost=%d\n",mi.keepcost);
+
+  pConsole->printf("RAM Start %lx\n", (unsigned long)ramstart);
+  pConsole->printf("Data/Bss end %lx\n", (unsigned long)&_end);
+  pConsole->printf("Heap End %lx\n", (unsigned long)heapend);
+  pConsole->printf("Stack Ptr %lx\n",(unsigned long)stack_ptr);
+  pConsole->printf("RAM End %lx\n", (unsigned long)ramend);
+
+  pConsole->printf("Heap RAM Used: %d\n",mi.uordblks);
+  pConsole->printf("Program RAM Used %d\n",&_end - ramstart);
+  pConsole->printf("Stack RAM Used %d\n",ramend - stack_ptr);
+
+  pConsole->printf("Estimated Free RAM: %d\n\n",stack_ptr - heapend + mi.fordblks);
+  */
 }
 
 #endif

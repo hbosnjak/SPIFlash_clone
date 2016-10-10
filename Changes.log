@@ -20,11 +20,15 @@ Enhancements:
 --> Don't need to ```#include <SPI.h>``` in user code anymore. Just including ```#include<SPIFlash.h>``` will do. Examples are now updated.
 --> Now supports SPI.transfer16() & SPI.transfer(*buf, count) along with the standard SPI.transfer(), speeding up the read/write of anything larger than an byte (AVR Boards only)
 --> Reduces the program storage space in the uC's flash (AVR Boards)
+--> Added flash.update() function for Arduino Due
+--> It is now easier to track the library version to enable more adaptive code
+--> Can now track the free SRAM on the Arduino Due (as a part of the flash.update() function)
 
 To-do
 --> Need to find a way to better identify _notPrevWritten();
 --> Need to fix up eraseBlock32K, eraseBlock64K and eraseSector times
 --> Confirm new Error checking bug in writeCharArray() is fixed
+--> Make sure that when an error is returned, the function returns a zero and locks the code from running
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //				 	 						Version 2.4.0 									   	   //
 //									Author: Prajwal Bhattaram									   //
